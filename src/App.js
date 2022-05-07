@@ -1,5 +1,6 @@
 import Frog from './Frog'
 import Layout from './Layout'
+import socketIOClient from 'socket.io-client'
 import { useEffect, useState } from 'react'
 import Modal from './Modal'
 function App() {
@@ -8,10 +9,11 @@ function App() {
     setShowModal((bool) => !bool)
   }
   useEffect(() => {
-    fetch('/api')
-      .then((o) => o.body())
-      .then(console.log)
-  })
+    const socket = socketIOClient({
+      protocols: ['http'],
+    })
+    socket.on('fromAPI', (data) => console.log(data))
+  }, [])
   return (
     <Layout>
       <Frog onPress={handlePress} />
