@@ -1,5 +1,5 @@
 import frog_video from './assets/videos/frog.mp4'
-import useTimeout from './useTimeout'
+import useTimeout from './hooks/useTimeout'
 
 const Modal = ({ onClose }) => {
   useTimeout(onClose, 5 * 1000)
