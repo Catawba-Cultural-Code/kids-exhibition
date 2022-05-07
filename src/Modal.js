@@ -1,30 +1,6 @@
 import frog_video from './assets/videos/frog.mp4'
-import { useEffect, useCallback, useRef } from 'react'
+import useTimeout from './useTimeout'
 
-// React hook for delaying calls with time
-// returns callback to use for cancelling
-
-const useTimeout = (
-  callback, // function to call. No args passed.
-  // if you create a new callback each render, then previous callback will be cancelled on render.
-  timeout // delay, ms (default: immediately put into JS Event Queue)
-) => {
-  const timeoutIdRef = useRef()
-  const cancel = useCallback(() => {
-    const timeoutId = timeoutIdRef.current
-    if (timeoutId) {
-      timeoutIdRef.current = undefined
-      clearTimeout(timeoutId)
-    }
-  }, [timeoutIdRef])
-
-  useEffect(() => {
-    timeoutIdRef.current = setTimeout(callback, timeout)
-    return cancel
-  }, [callback, timeout, cancel])
-
-  return cancel
-}
 const Modal = ({ onClose }) => {
   useTimeout(onClose, 5 * 1000)
   return (

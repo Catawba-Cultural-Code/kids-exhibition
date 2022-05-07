@@ -1,9 +1,8 @@
-import Frog from './Frog'
-import Layout from './Layout'
-
 import { useEffect, useState } from 'react'
+import Layout from './Layout'
 import Modal from './Modal'
-import useSocket from './useSocket'
+import useSocket from './hooks/useSocket'
+import Puppeteer from './Puppeteer'
 function App() {
   const [showModal, setShowModal] = useState(false)
   const socket = useSocket()
@@ -22,7 +21,7 @@ function App() {
   }, [socket])
   return (
     <Layout>
-      <Frog onPress={handlePress} />
+      <Puppeteer handlePress={handlePress} />
       {showModal ? <Modal onClose={closeModal} /> : null}
     </Layout>
   )
