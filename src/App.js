@@ -1,23 +1,29 @@
 import Frog from './Frog'
 import Layout from './Layout'
-import socketIOClient from 'socket.io-client'
+
 import { useEffect, useState } from 'react'
 import Modal from './Modal'
+import useSocket from './useSocket'
 function App() {
   const [showModal, setShowModal] = useState(false)
+  const socket = useSocket()
   const handlePress = () => {
+    socket.emit('toAPI', { event: 'START', id: 'FROG' })
+    setShowModal((bool) => !bool)
+  }
+  const closeModal = () => {
+    socket.emit('toAPI', { event: 'STOP', id: 'FROG' })
     setShowModal((bool) => !bool)
   }
   useEffect(() => {
-    const socket = socketIOClient({
-      protocols: ['http'],
-    })
-    socket.on('fromAPI', (data) => console.log(data))
-  }, [])
+    if (socket !== null) {
+      socket.on('fromAPI', (data) => console.log(data))
+    }
+  }, [socket])
   return (
     <Layout>
       <Frog onPress={handlePress} />
-      {showModal ? <Modal onClose={handlePress} /> : null}
+      {showModal ? <Modal onClose={closeModal} /> : null}
     </Layout>
   )
 }

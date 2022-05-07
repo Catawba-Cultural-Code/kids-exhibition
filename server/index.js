@@ -11,6 +11,9 @@ const io = new Server(httpServer, {
 io.on('connection', (socket) => {
   socket.emit('fromAPI', { msg: 'tanake' })
   socket.on('disconnect', () => console.log('client disconnected'))
+  socket.on('toAPI', (data) => {
+    console.log(data)
+  })
 })
 
 module.exports = (PORT) => {
